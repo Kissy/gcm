@@ -11,11 +11,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
 
+import java.net.UnknownHostException;
+
 /**
  * @author Guillaume Le Biller
  */
 @Configuration
 public class DatabaseConfig {
+    @Value("${MONGOHQ_URL}")
+    private String mongoHqUrl;
     @Value("${database.url}")
     private String databaseUrl;
     @Value("${database.name}")
@@ -23,17 +27,24 @@ public class DatabaseConfig {
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
-        MongoClient mongoClient = StringUtils.isNotBlank(databaseUrl) ? new MongoClient(new MongoClientURI(databaseUrl)) : new MongoClient();
-        return new SimpleMongoDbFactory(mongoClient, databaseName);
+        return new SimpleMongoDbFactory(getMongoClient(), databaseName);
     }
-
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
         return new MongoTemplate(mongoDbFactory());
     }
-
     @Bean
     public MongoRepositoryFactory mongoRepositoryFactory() throws Exception {
         return new MongoRepositoryFactory(mongoTemplate());
+    }
+
+    private MongoClient getMongoClient() throws UnknownHostException {
+        if (StringUtils.isNotBlank(mongoHqUrl)) {
+            return new MongoClient(new MongoClientURI(mongoHqUrl));
+        }
+        if (StringUtils.isNotBlank(databaseUrl)) {
+            return new MongoClient(new MongoClientURI(databaseUrl));
+        }
+        return new MongoClient();
     }
 }
