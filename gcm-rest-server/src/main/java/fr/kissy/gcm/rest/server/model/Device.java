@@ -30,7 +30,6 @@ import java.util.Date;
 public class Device {
     @Id
     private String id;
-    @Indexed
     private String application;
     private String registration;
     private Date date;

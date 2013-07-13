@@ -18,9 +18,9 @@ import java.net.UnknownHostException;
  */
 @Configuration
 public class DatabaseConfig {
-    @Value("${MONGOHQ_URL}")
+    @Value("${MONGOHQ_URL:}")
     private String mongoHqUrl;
-    @Value("${database.url}")
+    @Value("${database.url:}")
     private String databaseUrl;
     @Value("${database.name}")
     private String databaseName;
