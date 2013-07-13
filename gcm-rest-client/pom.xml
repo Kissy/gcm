@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fr.kissy</groupId>
+        <artifactId>gcm-rest</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>fr.kissy.gcm.rest</groupId>
+    <artifactId>gcm-rest-client</artifactId>
+    <packaging>jar</packaging>
+
+   <dependencies>
+       <dependency>
+           <groupId>fr.kissy.module.rest</groupId>
+           <artifactId>rest-client</artifactId>
+           <version>1.0-SNAPSHOT</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.cxf</groupId>
+           <artifactId>cxf-tools-wadlto-jaxrs</artifactId>
+           <version>2.7.5</version>
+       </dependency>
+   </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-wadl2java-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wadlOptions>
+                                <wadlOption>
+                                    <wadl>${basedir}/src/main/resources/fr/kissy/gcm/rest/client/wadl/gcm-rest.wadl</wadl>
+                                    <packagename>${project.groupId}.client.resource</packagename>
+                                    <schemaPackagenames>
+                                        <schemaPackagename>http://kissy.fr/gcm/dto=${project.groupId}.client.dto</schemaPackagename>
+                                    </schemaPackagenames>
+                                    <extraargs>
+                                        <extraarg>-b</extraarg>
+                                        <extraarg>${basedir}/src/main/resources/fr/kissy/gcm/rest/client/binding/jaxb.xml</extraarg>
+                                    </extraargs>
+                                </wadlOption>
+                            </wadlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wadl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

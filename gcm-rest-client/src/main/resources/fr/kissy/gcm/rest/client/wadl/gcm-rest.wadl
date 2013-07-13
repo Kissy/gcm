@@ -1,0 +1,124 @@
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:ns1="http://kissy.fr/gcm/dto">
+    <grammars>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://kissy.fr/gcm/dto"
+                   attributeFormDefault="unqualified" elementFormDefault="unqualified"
+                   targetNamespace="http://kissy.fr/gcm/dto">
+            <xs:element name="Application" type="tns:applicationDTO"/>
+            <xs:element name="Device" type="tns:deviceDTO"/>
+            <xs:complexType name="deviceDTO">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:string"/>
+                    <xs:element name="registration" type="xs:string"/>
+                    <xs:element name="date" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="applicationDTO">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:string"/>
+                    <xs:element name="apiKey" type="xs:string"/>
+                    <xs:element name="date" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </grammars>
+    <resources base="http://localhost:8080/rest">
+        <resource path="/application">
+            <method name="POST">
+                <request>
+                    <representation mediaType="application/json" element="ns1:Application"/>
+                </request>
+                <response>
+                    <representation mediaType="application/json" element="ns1:Application"/>
+                </response>
+            </method>
+            <method name="PUT">
+                <request>
+                    <representation mediaType="application/json" element="ns1:Application"/>
+                </request>
+                <response>
+                    <representation mediaType="application/json" element="ns1:Application"/>
+                </response>
+            </method>
+            <resource path="/{id}">
+                <param name="id" style="template" type="xs:string"/>
+                <method name="DELETE">
+                    <request></request>
+                    <response status="204"></response>
+                </method>
+                <method name="GET">
+                    <request></request>
+                    <response>
+                        <representation mediaType="application/json" element="ns1:Application"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/{application}/device">
+            <param name="application" style="template" type="xs:string"/>
+            <method name="POST">
+                <request>
+                    <representation mediaType="application/json" element="ns1:Device"/>
+                </request>
+                <response>
+                    <representation mediaType="application/json" element="ns1:Device"/>
+                </response>
+            </method>
+            <method name="PUT">
+                <request>
+                    <representation mediaType="application/json" element="ns1:Device"/>
+                </request>
+                <response>
+                    <representation mediaType="application/json" element="ns1:Device"/>
+                </response>
+            </method>
+            <resource path="/{id}">
+                <param name="application" style="template" type="xs:string"/>
+                <param name="id" style="template" type="xs:string"/>
+                <method name="DELETE">
+                    <request></request>
+                    <response status="204"></response>
+                </method>
+                <method name="GET">
+                    <request></request>
+                    <response>
+                        <representation mediaType="application/json" element="ns1:Device"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/{application}/devices">
+            <param name="application" style="template" type="xs:string"/>
+            <method name="GET">
+                <request></request>
+                <response>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/send">
+                <param name="application" style="template" type="xs:string"/>
+                <method name="POST">
+                    <request></request>
+                    <response status="204"></response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/api">
+            <method name="GET">
+                <request></request>
+                <response>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/{route: .+}">
+                <param name="route" style="template" type="xs:string"/>
+                <method name="GET">
+                    <request></request>
+                    <response>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>
