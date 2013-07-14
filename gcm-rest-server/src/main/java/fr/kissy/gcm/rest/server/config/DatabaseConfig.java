@@ -20,8 +20,6 @@ import java.net.UnknownHostException;
 public class DatabaseConfig {
     @Value("${MONGOHQ_URL:}")
     private String mongoHqUrl;
-    @Value("${database.url:}")
-    private String databaseUrl;
     @Value("${database.name}")
     private String databaseName;
 
@@ -41,9 +39,6 @@ public class DatabaseConfig {
     private MongoClient getMongoClient() throws UnknownHostException {
         if (StringUtils.isNotBlank(mongoHqUrl)) {
             return new MongoClient(new MongoClientURI(mongoHqUrl));
-        }
-        if (StringUtils.isNotBlank(databaseUrl)) {
-            return new MongoClient(new MongoClientURI(databaseUrl));
         }
         return new MongoClient();
     }
