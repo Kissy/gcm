@@ -1,7 +1,6 @@
 package fr.kissy.gcm.rest.server.config;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.MongoURI;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,12 +19,10 @@ import java.net.UnknownHostException;
 public class DatabaseConfig {
     @Value("${MONGOHQ_URL:}")
     private String mongoHqUrl;
-    @Value("${database.name}")
-    private String databaseName;
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(getMongoClient(), databaseName);
+        return new SimpleMongoDbFactory(getMongoURI());
     }
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
@@ -36,10 +33,10 @@ public class DatabaseConfig {
         return new MongoRepositoryFactory(mongoTemplate());
     }
 
-    private MongoClient getMongoClient() throws UnknownHostException {
+    private MongoURI getMongoURI() throws UnknownHostException {
         if (StringUtils.isNotBlank(mongoHqUrl)) {
-            return new MongoClient(new MongoClientURI(mongoHqUrl));
+            return new MongoURI(mongoHqUrl);
         }
-        return new MongoClient();
+        return new MongoURI("mongodb://localhost/gcm-rest");
     }
 }
