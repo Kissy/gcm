@@ -4,17 +4,23 @@
     <parent>
         <groupId>fr.kissy.module</groupId>
         <artifactId>rest</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <groupId>fr.kissy</groupId>
     <artifactId>gcm-rest</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    
+    <version>1.0</version>
+
     <repositories>
         <repository>
-            <id>kissy-snapshots</id>
-            <url>https://github.com/Kissy/mvn-repository/raw/master/snapshots</url>
+            <id>kissy-java-modules-releases</id>
+            <url>https://raw.github.com/Kissy/mvn-repository/master</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     
