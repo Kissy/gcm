@@ -77,14 +77,25 @@
                                     <version>${jetty.maven.plugin.version}</version>
                                     <destFileName>jetty-runner.jar</destFileName>
                                 </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.newrelic.agent.java</groupId>
-                                    <artifactId>newrelic-agent</artifactId>
-                                    <version>${newrelic.agent.version}</version>
-                                    <destFileName>newrelic-agent.jar</destFileName>
-                                </artifactItem>
                             </artifactItems>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>fr.kissy.modules.maven</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <server>heroku</server>
+                    <application>gcm-rest</application>
+                    <procfile>web: java ${JAVA_OPTS} -jar jetty-runner.jar --port ${PORT} ${project.build.finalName}.war</procfile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
