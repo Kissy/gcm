@@ -8,6 +8,7 @@ import fr.kissy.gcm.rest.server.model.Device;
 import fr.kissy.gcm.rest.server.repository.DeviceRepository;
 import fr.kissy.gcm.rest.server.model.Application;
 import fr.kissy.gcm.rest.server.repository.ApplicationRepository;
+import fr.kissy.gcm.rest.server.task.GcmSenderTask;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +16,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Guillaume Le Biller (<i>lebiller@ekino.com</i>)
@@ -27,6 +30,8 @@ public class DevicesService {
     private ApplicationRepository applicationRepository;
     @Autowired
     private DeviceRepository deviceRepository;
+    @Autowired
+    private ExecutorService executorService;
 
     public Integer send(String application) {
         Application applicationObj = applicationRepository.findOne(application);
@@ -39,14 +44,7 @@ public class DevicesService {
             return 0;
         }
 
-        Sender sender = new Sender(applicationObj.getApiKey());
-        Message gcmMessage = new Message.Builder().build();
-        try {
-            sender.send(gcmMessage, devices, 3);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        executorService.execute(new GcmSenderTask(applicationObj.getApiKey(), devices));
         return devices.size();
     }
 

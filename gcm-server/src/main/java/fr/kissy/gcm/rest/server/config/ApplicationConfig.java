@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author Guillaume Le Biller
  */
@@ -19,5 +22,9 @@ public class ApplicationConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+    @Bean
+    public ExecutorService executorService() {
+        return Executors.newFixedThreadPool(4);
     }
 }

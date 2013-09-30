@@ -32,7 +32,6 @@ public class ApplicationService {
         if (application == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity(StringUtils.EMPTY).build());
         }
-
         return applicationConverter.toDto(application);
     }
 
