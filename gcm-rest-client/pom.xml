@@ -12,7 +12,7 @@
 
    <dependencies>
        <dependency>
-           <groupId>fr.kissy.module.rest</groupId>
+           <groupId>fr.kissy.modules.rest</groupId>
            <artifactId>rest-client</artifactId>
            <version>1.0</version>
        </dependency>
